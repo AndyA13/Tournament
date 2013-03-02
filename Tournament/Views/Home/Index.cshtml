@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Tournament.Data.Tournament>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+
+<h2>Index</h2>
+
+<ul>
+    @foreach (Tournament.Data.Tournament tournament in Model)
+    {
+        <li>@tournament.Name</li>
+    }
+</ul>
+
+@using (Html.BeginForm("Add", "Home", FormMethod.Post))
+{
+    <p>
+        Name: <input type="text" name="Name" />
+    
+        <br />
+    
+        <input type="submit" value="Submit" />
+    </p>
+}

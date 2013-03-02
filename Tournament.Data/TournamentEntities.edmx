@@ -1,0 +1,379 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Tournament.Data.Models.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="TournamentDataModelsStoreContainer">
+          <EntitySet Name="Fixture" EntityType="Tournament.Data.Models.Store.Fixture" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Group" EntityType="Tournament.Data.Models.Store.Group" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Result" EntityType="Tournament.Data.Models.Store.Result" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Team" EntityType="Tournament.Data.Models.Store.Team" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Tournament" EntityType="Tournament.Data.Models.Store.Tournament" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Fixture_Team" Association="Tournament.Data.Models.Store.FK_Fixture_Team">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Fixture" EntitySet="Fixture" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fixture_Team1" Association="Tournament.Data.Models.Store.FK_Fixture_Team1">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Fixture" EntitySet="Fixture" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Group_Tournament" Association="Tournament.Data.Models.Store.FK_Group_Tournament">
+            <End Role="Tournament" EntitySet="Tournament" />
+            <End Role="Group" EntitySet="Group" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Result_Fixture" Association="Tournament.Data.Models.Store.FK_Result_Fixture">
+            <End Role="Fixture" EntitySet="Fixture" />
+            <End Role="Result" EntitySet="Result" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Team_Group" Association="Tournament.Data.Models.Store.FK_Team_Group">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="Team" EntitySet="Team" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Fixture">
+          <Key>
+            <PropertyRef Name="FixtureID" />
+          </Key>
+          <Property Name="FixtureID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="HomeTeamID" Type="int" Nullable="false" />
+          <Property Name="AwayTeamID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="GroupID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TournamentID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Result">
+          <Key>
+            <PropertyRef Name="ResultID" />
+          </Key>
+          <Property Name="ResultID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FixtureID" Type="int" Nullable="false" />
+          <Property Name="HomeScore" Type="int" Nullable="false" />
+          <Property Name="AwayScore" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="TeamID" />
+          </Key>
+          <Property Name="TeamID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="GroupID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Player" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Tournament">
+          <Key>
+            <PropertyRef Name="TournamentID" />
+          </Key>
+          <Property Name="TournamentID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK_Fixture_Team">
+          <End Role="Team" Type="Tournament.Data.Models.Store.Team" Multiplicity="1" />
+          <End Role="Fixture" Type="Tournament.Data.Models.Store.Fixture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="TeamID" />
+            </Principal>
+            <Dependent Role="Fixture">
+              <PropertyRef Name="HomeTeamID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fixture_Team1">
+          <End Role="Team" Type="Tournament.Data.Models.Store.Team" Multiplicity="1" />
+          <End Role="Fixture" Type="Tournament.Data.Models.Store.Fixture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="TeamID" />
+            </Principal>
+            <Dependent Role="Fixture">
+              <PropertyRef Name="AwayTeamID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Group_Tournament">
+          <End Role="Tournament" Type="Tournament.Data.Models.Store.Tournament" Multiplicity="1" />
+          <End Role="Group" Type="Tournament.Data.Models.Store.Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tournament">
+              <PropertyRef Name="TournamentID" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="TournamentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Result_Fixture">
+          <End Role="Fixture" Type="Tournament.Data.Models.Store.Fixture" Multiplicity="1" />
+          <End Role="Result" Type="Tournament.Data.Models.Store.Result" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fixture">
+              <PropertyRef Name="FixtureID" />
+            </Principal>
+            <Dependent Role="Result">
+              <PropertyRef Name="FixtureID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Team_Group">
+          <End Role="Group" Type="Tournament.Data.Models.Store.Group" Multiplicity="1" />
+          <End Role="Team" Type="Tournament.Data.Models.Store.Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Tournament.Data.Models" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="TournamentEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Fixtures" EntityType="Tournament.Data.Models.Fixture" />
+          <EntitySet Name="Groups" EntityType="Tournament.Data.Models.Group" />
+          <EntitySet Name="Results" EntityType="Tournament.Data.Models.Result" />
+          <EntitySet Name="Teams" EntityType="Tournament.Data.Models.Team" />
+          <EntitySet Name="Tournaments" EntityType="Tournament.Data.Models.Tournament" />
+          <AssociationSet Name="FK_Fixture_Team" Association="Tournament.Data.Models.FK_Fixture_Team">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="Fixture" EntitySet="Fixtures" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fixture_Team1" Association="Tournament.Data.Models.FK_Fixture_Team1">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="Fixture" EntitySet="Fixtures" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Result_Fixture" Association="Tournament.Data.Models.FK_Result_Fixture">
+            <End Role="Fixture" EntitySet="Fixtures" />
+            <End Role="Result" EntitySet="Results" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Group_Tournament" Association="Tournament.Data.Models.FK_Group_Tournament">
+            <End Role="Tournament" EntitySet="Tournaments" />
+            <End Role="Group" EntitySet="Groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Team_Group" Association="Tournament.Data.Models.FK_Team_Group">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="Team" EntitySet="Teams" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Fixture">
+          <Key>
+            <PropertyRef Name="FixtureID" />
+          </Key>
+          <Property Type="Int32" Name="FixtureID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="HomeTeamID" Nullable="false" />
+          <Property Type="Int32" Name="AwayTeamID" Nullable="false" />
+          <NavigationProperty Name="Team" Relationship="Tournament.Data.Models.FK_Fixture_Team" FromRole="Fixture" ToRole="Team" />
+          <NavigationProperty Name="Team1" Relationship="Tournament.Data.Models.FK_Fixture_Team1" FromRole="Fixture" ToRole="Team" />
+          <NavigationProperty Name="Results" Relationship="Tournament.Data.Models.FK_Result_Fixture" FromRole="Fixture" ToRole="Result" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Type="Int32" Name="GroupID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="TournamentID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tournament" Relationship="Tournament.Data.Models.FK_Group_Tournament" FromRole="Group" ToRole="Tournament" />
+          <NavigationProperty Name="Teams" Relationship="Tournament.Data.Models.FK_Team_Group" FromRole="Group" ToRole="Team" />
+        </EntityType>
+        <EntityType Name="Result">
+          <Key>
+            <PropertyRef Name="ResultID" />
+          </Key>
+          <Property Type="Int32" Name="ResultID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="FixtureID" Nullable="false" />
+          <Property Type="Int32" Name="HomeScore" Nullable="false" />
+          <Property Type="Int32" Name="AwayScore" Nullable="false" />
+          <NavigationProperty Name="Fixture" Relationship="Tournament.Data.Models.FK_Result_Fixture" FromRole="Result" ToRole="Fixture" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="TeamID" />
+          </Key>
+          <Property Type="Int32" Name="TeamID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="GroupID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Player" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Fixtures" Relationship="Tournament.Data.Models.FK_Fixture_Team" FromRole="Team" ToRole="Fixture" />
+          <NavigationProperty Name="Fixtures1" Relationship="Tournament.Data.Models.FK_Fixture_Team1" FromRole="Team" ToRole="Fixture" />
+          <NavigationProperty Name="Group" Relationship="Tournament.Data.Models.FK_Team_Group" FromRole="Team" ToRole="Group" />
+        </EntityType>
+        <EntityType Name="Tournament">
+          <Key>
+            <PropertyRef Name="TournamentID" />
+          </Key>
+          <Property Type="Int32" Name="TournamentID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Groups" Relationship="Tournament.Data.Models.FK_Group_Tournament" FromRole="Tournament" ToRole="Group" />
+        </EntityType>
+        <Association Name="FK_Fixture_Team">
+          <End Type="Tournament.Data.Models.Team" Role="Team" Multiplicity="1" />
+          <End Type="Tournament.Data.Models.Fixture" Role="Fixture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="TeamID" />
+            </Principal>
+            <Dependent Role="Fixture">
+              <PropertyRef Name="HomeTeamID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fixture_Team1">
+          <End Type="Tournament.Data.Models.Team" Role="Team" Multiplicity="1" />
+          <End Type="Tournament.Data.Models.Fixture" Role="Fixture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="TeamID" />
+            </Principal>
+            <Dependent Role="Fixture">
+              <PropertyRef Name="AwayTeamID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Result_Fixture">
+          <End Type="Tournament.Data.Models.Fixture" Role="Fixture" Multiplicity="1" />
+          <End Type="Tournament.Data.Models.Result" Role="Result" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fixture">
+              <PropertyRef Name="FixtureID" />
+            </Principal>
+            <Dependent Role="Result">
+              <PropertyRef Name="FixtureID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Group_Tournament">
+          <End Type="Tournament.Data.Models.Tournament" Role="Tournament" Multiplicity="1" />
+          <End Type="Tournament.Data.Models.Group" Role="Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tournament">
+              <PropertyRef Name="TournamentID" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="TournamentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Team_Group">
+          <End Type="Tournament.Data.Models.Group" Role="Group" Multiplicity="1" />
+          <End Type="Tournament.Data.Models.Team" Role="Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TournamentDataModelsStoreContainer" CdmEntityContainer="TournamentEntities">
+          <EntitySetMapping Name="Fixtures">
+            <EntityTypeMapping TypeName="Tournament.Data.Models.Fixture">
+              <MappingFragment StoreEntitySet="Fixture">
+                <ScalarProperty Name="AwayTeamID" ColumnName="AwayTeamID" />
+                <ScalarProperty Name="HomeTeamID" ColumnName="HomeTeamID" />
+                <ScalarProperty Name="FixtureID" ColumnName="FixtureID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="Tournament.Data.Models.Group">
+              <MappingFragment StoreEntitySet="Group">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TournamentID" ColumnName="TournamentID" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Results">
+            <EntityTypeMapping TypeName="Tournament.Data.Models.Result">
+              <MappingFragment StoreEntitySet="Result">
+                <ScalarProperty Name="AwayScore" ColumnName="AwayScore" />
+                <ScalarProperty Name="HomeScore" ColumnName="HomeScore" />
+                <ScalarProperty Name="FixtureID" ColumnName="FixtureID" />
+                <ScalarProperty Name="ResultID" ColumnName="ResultID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teams">
+            <EntityTypeMapping TypeName="Tournament.Data.Models.Team">
+              <MappingFragment StoreEntitySet="Team">
+                <ScalarProperty Name="Player" ColumnName="Player" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="TeamID" ColumnName="TeamID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tournaments">
+            <EntityTypeMapping TypeName="Tournament.Data.Models.Tournament">
+              <MappingFragment StoreEntitySet="Tournament">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TournamentID" ColumnName="TournamentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="TournamentEntities">
+        <EntityTypeShape EntityType="Tournament.Data.Models.Fixture" Width="1.5" PointX="7.5" PointY="1" Height="2.1725878906249996" />
+        <EntityTypeShape EntityType="Tournament.Data.Models.Group" Width="1.5" PointX="3" PointY="1.125" Height="1.9802864583333317" />
+        <EntityTypeShape EntityType="Tournament.Data.Models.Result" Width="1.5" PointX="9.75" PointY="1.125" Height="1.9802864583333317" />
+        <EntityTypeShape EntityType="Tournament.Data.Models.Team" Width="1.5" PointX="5.25" PointY="1" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="Tournament.Data.Models.Tournament" Width="1.5" PointX="0.75" PointY="1.375" Height="1.5956835937500031" />
+        <AssociationConnector Association="Tournament.Data.Models.FK_Fixture_Team" >
+          <ConnectorPoint PointX="6.75" PointY="2.0862939453125" />
+          <ConnectorPoint PointX="7.5" PointY="2.0862939453125" />
+        </AssociationConnector>
+        <AssociationConnector Association="Tournament.Data.Models.FK_Fixture_Team1" >
+          <ConnectorPoint PointX="6.75" PointY="1.48064697265625" />
+          <ConnectorPoint PointX="7.5" PointY="1.48064697265625" />
+        </AssociationConnector>
+        <AssociationConnector Association="Tournament.Data.Models.FK_Result_Fixture" >
+          <ConnectorPoint PointX="9" PointY="2.1151432291666659" />
+          <ConnectorPoint PointX="9.75" PointY="2.1151432291666659" />
+        </AssociationConnector>
+        <AssociationConnector Association="Tournament.Data.Models.FK_Group_Tournament" >
+          <ConnectorPoint PointX="2.25" PointY="2.1728417968750016" />
+          <ConnectorPoint PointX="3" PointY="2.1728417968750016" />
+        </AssociationConnector>
+        <AssociationConnector Association="Tournament.Data.Models.FK_Team_Group" >
+          <ConnectorPoint PointX="4.5" PointY="2.1151432291666659" />
+          <ConnectorPoint PointX="5.25" PointY="2.1151432291666659" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
