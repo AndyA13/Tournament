@@ -1,0 +1,35 @@
+﻿@model Tournament.Models.GroupTable
+
+@{
+    Layout = null;
+    ViewBag.Title = "GroupView";
+}
+
+<h3>@Model.GroupName</h3>
+    
+    @Html.Partial("GroupTable", Model)
+
+    @Html.ActionLink("Fixtures", "Index", "Fixtures", new { id = Model.GroupID }, null)
+
+    @using (Html.BeginForm("Add", "Team"))
+    {
+        <h3>Add Team</h3>
+        
+        <table>
+            <tr>
+                <td>Name:</td>
+                <td><input type="text" name="Name" /></td>
+            </tr>
+            <tr>
+                <td>Player:</td>
+                <td><input type="text" name="Player" /></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="hidden" name="GroupID" value="@Model.GroupID" />
+                    <input type="submit" value="Add" />
+                </td>
+            </tr>
+        </table>
+    }
+    

@@ -20,9 +20,9 @@ using System.Runtime.Serialization;
 
 [assembly: EdmRelationshipAttribute("Tournament.Data.Models", "FK_Fixture_Team", "Team", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Tournament.Data.Team), "Fixture", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Tournament.Data.Fixture), true)]
 [assembly: EdmRelationshipAttribute("Tournament.Data.Models", "FK_Fixture_Team1", "Team", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Tournament.Data.Team), "Fixture", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Tournament.Data.Fixture), true)]
-[assembly: EdmRelationshipAttribute("Tournament.Data.Models", "FK_Result_Fixture", "Fixture", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Tournament.Data.Fixture), "Result", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Tournament.Data.Result), true)]
 [assembly: EdmRelationshipAttribute("Tournament.Data.Models", "FK_Group_Tournament", "Tournament", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Tournament.Data.Tournament), "Group", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Tournament.Data.Group), true)]
 [assembly: EdmRelationshipAttribute("Tournament.Data.Models", "FK_Team_Group", "Group", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Tournament.Data.Group), "Team", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Tournament.Data.Team), true)]
+[assembly: EdmRelationshipAttribute("Tournament.Data.Models", "FK_Fixture_Result", "Result", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Tournament.Data.Result), "Fixture", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Tournament.Data.Fixture), true)]
 
 #endregion
 
@@ -307,6 +307,30 @@ namespace Tournament.Data
         private global::System.Int32 _AwayTeamID;
         partial void OnAwayTeamIDChanging(global::System.Int32 value);
         partial void OnAwayTeamIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> ResultID
+        {
+            get
+            {
+                return _ResultID;
+            }
+            set
+            {
+                OnResultIDChanging(value);
+                ReportPropertyChanging("ResultID");
+                _ResultID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ResultID");
+                OnResultIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _ResultID;
+        partial void OnResultIDChanging(Nullable<global::System.Int32> value);
+        partial void OnResultIDChanged();
 
         #endregion
     
@@ -319,7 +343,7 @@ namespace Tournament.Data
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("Tournament.Data.Models", "FK_Fixture_Team", "Team")]
-        public Team Team
+        public Team HomeTeam
         {
             get
             {
@@ -335,7 +359,7 @@ namespace Tournament.Data
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<Team> TeamReference
+        public EntityReference<Team> HomeTeamReference
         {
             get
             {
@@ -357,7 +381,7 @@ namespace Tournament.Data
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("Tournament.Data.Models", "FK_Fixture_Team1", "Team")]
-        public Team Team1
+        public Team AwayTeam
         {
             get
             {
@@ -373,7 +397,7 @@ namespace Tournament.Data
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<Team> Team1Reference
+        public EntityReference<Team> AwayTeamReference
         {
             get
             {
@@ -394,18 +418,34 @@ namespace Tournament.Data
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Tournament.Data.Models", "FK_Result_Fixture", "Result")]
-        public EntityCollection<Result> Results
+        [EdmRelationshipNavigationPropertyAttribute("Tournament.Data.Models", "FK_Fixture_Result", "Result")]
+        public Result Result
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Result>("Tournament.Data.Models.FK_Result_Fixture", "Result");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Result>("Tournament.Data.Models.FK_Fixture_Result", "Result").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Result>("Tournament.Data.Models.FK_Fixture_Result", "Result").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Result> ResultReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Result>("Tournament.Data.Models.FK_Fixture_Result", "Result");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Result>("Tournament.Data.Models.FK_Result_Fixture", "Result", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Result>("Tournament.Data.Models.FK_Fixture_Result", "Result", value);
                 }
             }
         }
@@ -597,14 +637,12 @@ namespace Tournament.Data
         /// Create a new Result object.
         /// </summary>
         /// <param name="resultID">Initial value of the ResultID property.</param>
-        /// <param name="fixtureID">Initial value of the FixtureID property.</param>
         /// <param name="homeScore">Initial value of the HomeScore property.</param>
         /// <param name="awayScore">Initial value of the AwayScore property.</param>
-        public static Result CreateResult(global::System.Int32 resultID, global::System.Int32 fixtureID, global::System.Int32 homeScore, global::System.Int32 awayScore)
+        public static Result CreateResult(global::System.Int32 resultID, global::System.Int32 homeScore, global::System.Int32 awayScore)
         {
             Result result = new Result();
             result.ResultID = resultID;
-            result.FixtureID = fixtureID;
             result.HomeScore = homeScore;
             result.AwayScore = awayScore;
             return result;
@@ -639,30 +677,6 @@ namespace Tournament.Data
         private global::System.Int32 _ResultID;
         partial void OnResultIDChanging(global::System.Int32 value);
         partial void OnResultIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 FixtureID
-        {
-            get
-            {
-                return _FixtureID;
-            }
-            set
-            {
-                OnFixtureIDChanging(value);
-                ReportPropertyChanging("FixtureID");
-                _FixtureID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("FixtureID");
-                OnFixtureIDChanged();
-            }
-        }
-        private global::System.Int32 _FixtureID;
-        partial void OnFixtureIDChanging(global::System.Int32 value);
-        partial void OnFixtureIDChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -722,34 +736,18 @@ namespace Tournament.Data
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Tournament.Data.Models", "FK_Result_Fixture", "Fixture")]
-        public Fixture Fixture
+        [EdmRelationshipNavigationPropertyAttribute("Tournament.Data.Models", "FK_Fixture_Result", "Fixture")]
+        public EntityCollection<Fixture> Fixtures
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Fixture>("Tournament.Data.Models.FK_Result_Fixture", "Fixture").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Fixture>("Tournament.Data.Models.FK_Result_Fixture", "Fixture").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Fixture> FixtureReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Fixture>("Tournament.Data.Models.FK_Result_Fixture", "Fixture");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Fixture>("Tournament.Data.Models.FK_Fixture_Result", "Fixture");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Fixture>("Tournament.Data.Models.FK_Result_Fixture", "Fixture", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Fixture>("Tournament.Data.Models.FK_Fixture_Result", "Fixture", value);
                 }
             }
         }
@@ -897,7 +895,7 @@ namespace Tournament.Data
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("Tournament.Data.Models", "FK_Fixture_Team", "Fixture")]
-        public EntityCollection<Fixture> Fixtures
+        public EntityCollection<Fixture> HomeFixtures
         {
             get
             {
@@ -919,7 +917,7 @@ namespace Tournament.Data
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("Tournament.Data.Models", "FK_Fixture_Team1", "Fixture")]
-        public EntityCollection<Fixture> Fixtures1
+        public EntityCollection<Fixture> AwayFixtures
         {
             get
             {

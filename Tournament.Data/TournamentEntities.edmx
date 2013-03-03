@@ -11,6 +11,10 @@
           <EntitySet Name="Result" EntityType="Tournament.Data.Models.Store.Result" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Team" EntityType="Tournament.Data.Models.Store.Team" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Tournament" EntityType="Tournament.Data.Models.Store.Tournament" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Fixture_Result" Association="Tournament.Data.Models.Store.FK_Fixture_Result">
+            <End Role="Result" EntitySet="Result" />
+            <End Role="Fixture" EntitySet="Fixture" />
+          </AssociationSet>
           <AssociationSet Name="FK_Fixture_Team" Association="Tournament.Data.Models.Store.FK_Fixture_Team">
             <End Role="Team" EntitySet="Team" />
             <End Role="Fixture" EntitySet="Fixture" />
@@ -22,10 +26,6 @@
           <AssociationSet Name="FK_Group_Tournament" Association="Tournament.Data.Models.Store.FK_Group_Tournament">
             <End Role="Tournament" EntitySet="Tournament" />
             <End Role="Group" EntitySet="Group" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Result_Fixture" Association="Tournament.Data.Models.Store.FK_Result_Fixture">
-            <End Role="Fixture" EntitySet="Fixture" />
-            <End Role="Result" EntitySet="Result" />
           </AssociationSet>
           <AssociationSet Name="FK_Team_Group" Association="Tournament.Data.Models.Store.FK_Team_Group">
             <End Role="Group" EntitySet="Group" />
@@ -39,6 +39,7 @@
           <Property Name="FixtureID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="HomeTeamID" Type="int" Nullable="false" />
           <Property Name="AwayTeamID" Type="int" Nullable="false" />
+          <Property Name="ResultID" Type="int" />
         </EntityType>
         <EntityType Name="Group">
           <Key>
@@ -53,7 +54,6 @@
             <PropertyRef Name="ResultID" />
           </Key>
           <Property Name="ResultID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="FixtureID" Type="int" Nullable="false" />
           <Property Name="HomeScore" Type="int" Nullable="false" />
           <Property Name="AwayScore" Type="int" Nullable="false" />
         </EntityType>
@@ -73,6 +73,18 @@
           <Property Name="TournamentID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
         </EntityType>
+        <Association Name="FK_Fixture_Result">
+          <End Role="Result" Type="Tournament.Data.Models.Store.Result" Multiplicity="0..1" />
+          <End Role="Fixture" Type="Tournament.Data.Models.Store.Fixture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Result">
+              <PropertyRef Name="ResultID" />
+            </Principal>
+            <Dependent Role="Fixture">
+              <PropertyRef Name="ResultID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Fixture_Team">
           <End Role="Team" Type="Tournament.Data.Models.Store.Team" Multiplicity="1" />
           <End Role="Fixture" Type="Tournament.Data.Models.Store.Fixture" Multiplicity="*" />
@@ -109,18 +121,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Result_Fixture">
-          <End Role="Fixture" Type="Tournament.Data.Models.Store.Fixture" Multiplicity="1" />
-          <End Role="Result" Type="Tournament.Data.Models.Store.Result" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Fixture">
-              <PropertyRef Name="FixtureID" />
-            </Principal>
-            <Dependent Role="Result">
-              <PropertyRef Name="FixtureID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Team_Group">
           <End Role="Group" Type="Tournament.Data.Models.Store.Group" Multiplicity="1" />
           <End Role="Team" Type="Tournament.Data.Models.Store.Team" Multiplicity="*" />
@@ -151,10 +151,6 @@
             <End Role="Team" EntitySet="Teams" />
             <End Role="Fixture" EntitySet="Fixtures" />
           </AssociationSet>
-          <AssociationSet Name="FK_Result_Fixture" Association="Tournament.Data.Models.FK_Result_Fixture">
-            <End Role="Fixture" EntitySet="Fixtures" />
-            <End Role="Result" EntitySet="Results" />
-          </AssociationSet>
           <AssociationSet Name="FK_Group_Tournament" Association="Tournament.Data.Models.FK_Group_Tournament">
             <End Role="Tournament" EntitySet="Tournaments" />
             <End Role="Group" EntitySet="Groups" />
@@ -162,6 +158,10 @@
           <AssociationSet Name="FK_Team_Group" Association="Tournament.Data.Models.FK_Team_Group">
             <End Role="Group" EntitySet="Groups" />
             <End Role="Team" EntitySet="Teams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fixture_Result" Association="Tournament.Data.Models.FK_Fixture_Result">
+            <End Role="Result" EntitySet="Results" />
+            <End Role="Fixture" EntitySet="Fixtures" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Fixture">
@@ -171,9 +171,10 @@
           <Property Type="Int32" Name="FixtureID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="HomeTeamID" Nullable="false" />
           <Property Type="Int32" Name="AwayTeamID" Nullable="false" />
-          <NavigationProperty Name="Team" Relationship="Tournament.Data.Models.FK_Fixture_Team" FromRole="Fixture" ToRole="Team" />
-          <NavigationProperty Name="Team1" Relationship="Tournament.Data.Models.FK_Fixture_Team1" FromRole="Fixture" ToRole="Team" />
-          <NavigationProperty Name="Results" Relationship="Tournament.Data.Models.FK_Result_Fixture" FromRole="Fixture" ToRole="Result" />
+          <NavigationProperty Name="HomeTeam" Relationship="Tournament.Data.Models.FK_Fixture_Team" FromRole="Fixture" ToRole="Team" />
+          <NavigationProperty Name="AwayTeam" Relationship="Tournament.Data.Models.FK_Fixture_Team1" FromRole="Fixture" ToRole="Team" />
+          <Property Type="Int32" Name="ResultID" />
+          <NavigationProperty Name="Result" Relationship="Tournament.Data.Models.FK_Fixture_Result" FromRole="Fixture" ToRole="Result" />
         </EntityType>
         <EntityType Name="Group">
           <Key>
@@ -190,10 +191,9 @@
             <PropertyRef Name="ResultID" />
           </Key>
           <Property Type="Int32" Name="ResultID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="FixtureID" Nullable="false" />
           <Property Type="Int32" Name="HomeScore" Nullable="false" />
           <Property Type="Int32" Name="AwayScore" Nullable="false" />
-          <NavigationProperty Name="Fixture" Relationship="Tournament.Data.Models.FK_Result_Fixture" FromRole="Result" ToRole="Fixture" />
+          <NavigationProperty Name="Fixtures" Relationship="Tournament.Data.Models.FK_Fixture_Result" FromRole="Result" ToRole="Fixture" />
         </EntityType>
         <EntityType Name="Team">
           <Key>
@@ -203,8 +203,8 @@
           <Property Type="Int32" Name="GroupID" Nullable="false" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Player" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Fixtures" Relationship="Tournament.Data.Models.FK_Fixture_Team" FromRole="Team" ToRole="Fixture" />
-          <NavigationProperty Name="Fixtures1" Relationship="Tournament.Data.Models.FK_Fixture_Team1" FromRole="Team" ToRole="Fixture" />
+          <NavigationProperty Name="HomeFixtures" Relationship="Tournament.Data.Models.FK_Fixture_Team" FromRole="Team" ToRole="Fixture" />
+          <NavigationProperty Name="AwayFixtures" Relationship="Tournament.Data.Models.FK_Fixture_Team1" FromRole="Team" ToRole="Fixture" />
           <NavigationProperty Name="Group" Relationship="Tournament.Data.Models.FK_Team_Group" FromRole="Team" ToRole="Group" />
         </EntityType>
         <EntityType Name="Tournament">
@@ -239,18 +239,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Result_Fixture">
-          <End Type="Tournament.Data.Models.Fixture" Role="Fixture" Multiplicity="1" />
-          <End Type="Tournament.Data.Models.Result" Role="Result" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Fixture">
-              <PropertyRef Name="FixtureID" />
-            </Principal>
-            <Dependent Role="Result">
-              <PropertyRef Name="FixtureID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Group_Tournament">
           <End Type="Tournament.Data.Models.Tournament" Role="Tournament" Multiplicity="1" />
           <End Type="Tournament.Data.Models.Group" Role="Group" Multiplicity="*" />
@@ -275,6 +263,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Fixture_Result">
+          <End Type="Tournament.Data.Models.Result" Role="Result" Multiplicity="0..1" />
+          <End Type="Tournament.Data.Models.Fixture" Role="Fixture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Result">
+              <PropertyRef Name="ResultID" />
+            </Principal>
+            <Dependent Role="Fixture">
+              <PropertyRef Name="ResultID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -284,6 +284,7 @@
           <EntitySetMapping Name="Fixtures">
             <EntityTypeMapping TypeName="Tournament.Data.Models.Fixture">
               <MappingFragment StoreEntitySet="Fixture">
+                <ScalarProperty Name="ResultID" ColumnName="ResultID" />
                 <ScalarProperty Name="AwayTeamID" ColumnName="AwayTeamID" />
                 <ScalarProperty Name="HomeTeamID" ColumnName="HomeTeamID" />
                 <ScalarProperty Name="FixtureID" ColumnName="FixtureID" />
@@ -304,7 +305,6 @@
               <MappingFragment StoreEntitySet="Result">
                 <ScalarProperty Name="AwayScore" ColumnName="AwayScore" />
                 <ScalarProperty Name="HomeScore" ColumnName="HomeScore" />
-                <ScalarProperty Name="FixtureID" ColumnName="FixtureID" />
                 <ScalarProperty Name="ResultID" ColumnName="ResultID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -350,20 +350,16 @@
       <Diagram Name="TournamentEntities">
         <EntityTypeShape EntityType="Tournament.Data.Models.Fixture" Width="1.5" PointX="7.5" PointY="1" Height="2.1725878906249996" />
         <EntityTypeShape EntityType="Tournament.Data.Models.Group" Width="1.5" PointX="3" PointY="1.125" Height="1.9802864583333317" />
-        <EntityTypeShape EntityType="Tournament.Data.Models.Result" Width="1.5" PointX="9.75" PointY="1.125" Height="1.9802864583333317" />
+        <EntityTypeShape EntityType="Tournament.Data.Models.Result" Width="1.5" PointX="9.75" PointY="1.125" Height="1.9802864583333331" />
         <EntityTypeShape EntityType="Tournament.Data.Models.Team" Width="1.5" PointX="5.25" PointY="1" Height="2.3648893229166674" />
         <EntityTypeShape EntityType="Tournament.Data.Models.Tournament" Width="1.5" PointX="0.75" PointY="1.375" Height="1.5956835937500031" />
         <AssociationConnector Association="Tournament.Data.Models.FK_Fixture_Team" >
-          <ConnectorPoint PointX="6.75" PointY="2.0862939453125" />
-          <ConnectorPoint PointX="7.5" PointY="2.0862939453125" />
+          <ConnectorPoint PointX="6.75" PointY="2.4852681477864587" />
+          <ConnectorPoint PointX="7.5" PointY="2.4852681477864587" />
         </AssociationConnector>
         <AssociationConnector Association="Tournament.Data.Models.FK_Fixture_Team1" >
-          <ConnectorPoint PointX="6.75" PointY="1.48064697265625" />
-          <ConnectorPoint PointX="7.5" PointY="1.48064697265625" />
-        </AssociationConnector>
-        <AssociationConnector Association="Tournament.Data.Models.FK_Result_Fixture" >
-          <ConnectorPoint PointX="9" PointY="2.1151432291666659" />
-          <ConnectorPoint PointX="9.75" PointY="2.1151432291666659" />
+          <ConnectorPoint PointX="6.75" PointY="1.6801340738932293" />
+          <ConnectorPoint PointX="7.5" PointY="1.6801340738932293" />
         </AssociationConnector>
         <AssociationConnector Association="Tournament.Data.Models.FK_Group_Tournament" >
           <ConnectorPoint PointX="2.25" PointY="2.1728417968750016" />
@@ -372,6 +368,10 @@
         <AssociationConnector Association="Tournament.Data.Models.FK_Team_Group" >
           <ConnectorPoint PointX="4.5" PointY="2.1151432291666659" />
           <ConnectorPoint PointX="5.25" PointY="2.1151432291666659" />
+        </AssociationConnector>
+        <AssociationConnector Association="Tournament.Data.Models.FK_Fixture_Result" >
+          <ConnectorPoint PointX="9.75" PointY="1.7089833577473959" />
+          <ConnectorPoint PointX="9" PointY="1.7089833577473959" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>

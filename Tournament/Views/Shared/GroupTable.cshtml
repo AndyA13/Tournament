@@ -1,0 +1,36 @@
+﻿@model Tournament.Models.GroupTable
+
+@{
+    Layout = null;
+    ViewBag.Title = "GroupView";
+}
+    
+<table>
+    <tr>
+        <th>Team</th>
+        <th>P</th>
+        <th>GF</th>
+        <th>GA</th>
+        <th>GD</th>
+        <th>W</th>
+        <th>D</th>
+        <th>L</th>
+        <th>Pts</th>
+
+    </tr>
+    @foreach (var team in Model.Teams.OrderByDescending(t => t.Points).ThenBy(t => t.GoalsFor))
+    {
+        <tr>
+            <td>@team.TeamName</td>
+            <td>@team.GamesPlayed</td>
+            <td>@team.GoalsFor</td>
+            <td>@team.GoalsAgainst</td>
+            <td>@(team.GoalsFor - team.GoalsAgainst)</td>
+            <td>@team.GamesWon</td>
+            <td>@team.GamesDrawn</td>
+            <td>@team.GamesLost</td>
+            <td>@team.Points</td>
+        </tr>
+    }
+    
+    </table>

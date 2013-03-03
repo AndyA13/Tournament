@@ -36,5 +36,43 @@ namespace Tournament.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            Tournament.Data.Tournament tournament = null;
+
+            using (TournamentEntities data = new TournamentEntities())
+            {
+                tournament = data.Tournaments.SingleOrDefault(t => t.TournamentID == id);
+            }
+
+            if (tournament != null)
+            {
+                return View("Delete", tournament);
+            }
+
+            return View("Error");
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int tournamentID, string submit)
+        {
+            if (tournamentID > 0 && submit == "Delete")
+            {
+                using (TournamentEntities data = new TournamentEntities())
+                {
+                    var tournament = data.Tournaments.SingleOrDefault(t => t.TournamentID == tournamentID);
+
+                    if (tournament != null)
+                    {
+                        data.Tournaments.DeleteObject(tournament);
+                        data.SaveChanges();
+                    }
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }

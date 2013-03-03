@@ -1,0 +1,22 @@
+﻿@model Tournament.Models.TournamentSummary
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>@Model.TournamentName</h2>
+
+<h3>Add a new group</h3>
+@using (Html.BeginForm("Add", "Tournament"))
+{
+    <p>
+        Name: <input type="text" value="" name="Name" />
+        <input type="hidden" name="TournamentID" value="@Model.TournamentID" />
+        <input type="submit" value="Add" />
+    </p>
+}
+
+@foreach (var group in Model.GroupTables)
+{
+    @Html.Partial("GroupView", group);      
+}

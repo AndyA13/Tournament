@@ -1,0 +1,17 @@
+﻿@model Tournament.Data.Tournament
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+@using (Html.BeginForm("Delete", "Home"))
+{
+    <p>
+        Are you sure you want to delete the @Model.Name tournament?
+    </p>
+    
+    <input type="hidden" name="tournamentID" value="@Model.TournamentID" />
+    
+    <input type="submit" name="submit" value="Delete" />
+}
