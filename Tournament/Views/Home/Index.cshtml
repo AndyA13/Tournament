@@ -13,12 +13,12 @@
     {
         <li>
             @Html.ActionLink(tournament.Name, "", "Tournament", new { id = tournament.TournamentID }, null)
-            (@Html.ActionLink("Delete", "Delete", "Home", new { id = tournament.TournamentID }, null))
+            (@Html.ActionLink("Delete", "Delete", "Tournament", new { id = tournament.TournamentID }, null))
         </li>
     }
 </ul>
 
-@using (Html.BeginForm("Add", "Home", FormMethod.Post))
+@using (Html.BeginForm("Add", "Tournament", FormMethod.Post))
 {
     <p>
         Name: <input type="text" name="Name" />

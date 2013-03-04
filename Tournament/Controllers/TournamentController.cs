@@ -34,18 +34,56 @@ namespace Tournament.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add(Group group)
+        public ActionResult Add(Tournament.Data.Tournament tournament)
         {
-            if (!String.IsNullOrEmpty(group.Name) && group.TournamentID > 0)
+            if (!String.IsNullOrEmpty(tournament.Name))
             {
                 using (TournamentEntities data = new TournamentEntities())
                 {
-                    data.Groups.AddObject(group);
+                    data.Tournaments.AddObject(tournament);
                     data.SaveChanges();
                 }
             }
 
-            return RedirectToAction("Index", new { id = group.TournamentID });
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            Tournament.Data.Tournament tournament = null;
+
+            using (TournamentEntities data = new TournamentEntities())
+            {
+                tournament = data.Tournaments.SingleOrDefault(t => t.TournamentID == id);
+            }
+
+            if (tournament != null)
+            {
+                return View("Delete", tournament);
+            }
+
+            return View("Error");
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int tournamentID, string submit)
+        {
+            if (tournamentID > 0 && submit == "Delete")
+            {
+                using (TournamentEntities data = new TournamentEntities())
+                {
+                    var tournament = data.Tournaments.SingleOrDefault(t => t.TournamentID == tournamentID);
+
+                    if (tournament != null)
+                    {
+                        data.Tournaments.DeleteObject(tournament);
+                        data.SaveChanges();
+                    }
+                }
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }

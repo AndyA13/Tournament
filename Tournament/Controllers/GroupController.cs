@@ -33,5 +33,19 @@ namespace Tournament.Controllers
             return View("Error");
         }
 
+        [HttpPost]
+        public ActionResult Add(Group group)
+        {
+            if (!String.IsNullOrEmpty(group.Name) && group.TournamentID > 0)
+            {
+                using (TournamentEntities data = new TournamentEntities())
+                {
+                    data.Groups.AddObject(group);
+                    data.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("Index", "Tournament", new { id = group.TournamentID });
+        }
     }
 }

@@ -240,7 +240,7 @@
     <Content Include="Views\Tournament\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\Delete.cshtml" />
+    <Content Include="Views\Tournament\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\GroupView.cshtml" />
