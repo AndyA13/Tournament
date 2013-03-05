@@ -1,0 +1,9 @@
+﻿@model Tournament.Models.GroupTable
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>@Model.GroupName</h2>
+
+@Html.Partial("GroupView", Model)

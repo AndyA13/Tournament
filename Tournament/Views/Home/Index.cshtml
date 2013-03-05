@@ -6,7 +6,7 @@
     
 }
 
-<h2>Index</h2>
+<h2>Tournaments</h2>
 
 <ul>
     @foreach (Tournament.Data.Tournament tournament in Model)
@@ -18,13 +18,19 @@
     }
 </ul>
 
-@using (Html.BeginForm("Add", "Tournament", FormMethod.Post))
-{
-    <p>
-        Name: <input type="text" name="Name" />
+
+<fieldset>
+
+    <legend>Add new tournament</legend>
+
+    @using (Html.BeginForm("Add", "Tournament", FormMethod.Post))
+    {
+        <p>
+            Name: <input type="text" name="Name" />
     
-        <br />
+            <br />
     
-        <input type="submit" value="Submit" />
-    </p>
-}
+            <input type="submit" value="Submit" />
+        </p>
+    }
+</fieldset>

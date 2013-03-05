@@ -6,17 +6,27 @@
 
 <h2>@Model.TournamentName</h2>
 
-<h3>Add a new group</h3>
-@using (Html.BeginForm("Add", "Group"))
-{
-    <p>
-        Name: <input type="text" value="" name="Name" />
-        <input type="hidden" name="TournamentID" value="@Model.TournamentID" />
-        <input type="submit" value="Add" />
-    </p>
-}
-
 @foreach (var group in Model.GroupTables)
 {
-    @Html.Partial("GroupView", group);      
+    <h3>@group.GroupName (@Html.ActionLink("Edit", "Index", "Group", new { id = group.GroupID }, null))</h3>
+    
+    @Html.Partial("GroupTable", group)
 }
+
+<br />
+<br />
+
+<fieldset>
+
+    <legend>Add a new group</legend>
+
+    @using (Html.BeginForm("Add", "Group"))
+    {
+        <p>
+            Name: <input type="text" value="" name="Name" />
+            <input type="hidden" name="TournamentID" value="@Model.TournamentID" />
+            <input type="submit" value="Add" />
+        </p>
+    }
+
+</fieldset>
