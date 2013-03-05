@@ -18,7 +18,7 @@
         <th class="stat">Pts</th>
 
     </tr>
-    @foreach (var team in Model.Teams.OrderByDescending(t => t.Points).ThenBy(t => t.GoalsFor))
+    @foreach (var team in Model.Teams.OrderByDescending(t => t.Points).ThenByDescending(t => t.GoalsFor - t.GoalsAgainst))
     {
         <tr>
             <td class="team">@Html.ActionLink(team.TeamName, "Index", "Team", new { id = team.TeamID }, null)</td>
