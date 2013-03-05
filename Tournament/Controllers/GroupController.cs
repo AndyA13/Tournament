@@ -45,7 +45,7 @@ namespace Tournament.Controllers
                 }
             }
 
-            return RedirectToAction("Index", "Tournament", new { id = group.TournamentID });
+            return RedirectToAction("Index", "Tournament", new { id = group.GroupID  });
         }
     }
 }

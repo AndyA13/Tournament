@@ -8,9 +8,20 @@ namespace Tournament.Models
 {
     public class TeamSummary
     {
+        public string TeamName { get; set; }
+        public int TeamID { get; set; }
+        public int GamesPlayed { get; set; }
+        public int GoalsFor { get; set; }
+        public int GoalsAgainst { get; set; }
+        public int GamesWon { get; set; }
+        public int GamesDrawn { get; set; }
+        public int GamesLost { get; set; }
+        public int Points { get; set; }
+
         public TeamSummary(Team team)
         {
             this.TeamName = team.ToString();
+            this.TeamID = team.TeamID;
 
             CalculatePoints(team, team.HomeFixtures);
             CalculatePoints(team, team.AwayFixtures);
@@ -73,13 +84,5 @@ namespace Tournament.Models
             }
         }
 
-        public string TeamName { get; set; }
-        public int GamesPlayed { get; set; }
-        public int GoalsFor { get; set; }
-        public int GoalsAgainst { get; set; }
-        public int GamesWon { get; set; }
-        public int GamesDrawn { get; set; }
-        public int GamesLost { get; set; }
-        public int Points { get; set; }
     }
 }

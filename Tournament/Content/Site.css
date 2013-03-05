@@ -59,3 +59,15 @@ textarea {
 .validation-summary-valid {
     display: none;
 }
+
+th.team, td.team
+{
+    text-align: left;
+    width: 250px;
+}
+
+th.stat, td.stat
+{
+    text-align: right;
+    width: 25px;
+}

@@ -8,12 +8,18 @@ namespace Tournament.Models
 {
     public class GroupTable
     {
+        public int TournamentID { get; set; }
+        public string TournamentName { get; set; }
+
         public int GroupID { get; set; }
         public string GroupName { get; set; }
+        
         public IEnumerable<TeamSummary> Teams { get; set; }
 
         public GroupTable(Group group)
         {
+            this.TournamentID = group.TournamentID;
+            this.TournamentName = group.Tournament.Name;
             this.GroupID = group.GroupID;
             this.GroupName = group.Name;
 

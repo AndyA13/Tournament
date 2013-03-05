@@ -1,16 +1,20 @@
 ﻿@model Tournament.Models.TournamentSummary
 
-@{
-    ViewBag.Title = "Index";
-}
+@Html.ActionLink("Home", "Index", "Home")
+&gt;
+@Model.TournamentName
 
 <h2>@Model.TournamentName</h2>
 
 @foreach (var group in Model.GroupTables)
 {
-    <h3>@group.GroupName (@Html.ActionLink("Edit", "Index", "Group", new { id = group.GroupID }, null))</h3>
+    <fieldset>
+
+        <legend>@group.GroupName (@Html.ActionLink("Edit", "Index", "Group", new { id = group.GroupID }, null))</legend>
     
-    @Html.Partial("GroupTable", group)
+        @Html.Partial("GroupTable", group)
+    
+    </fieldset>
 }
 
 <br />

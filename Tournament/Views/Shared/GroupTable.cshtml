@@ -7,29 +7,29 @@
     
 <table>
     <tr>
-        <th>Team</th>
-        <th>P</th>
-        <th>GF</th>
-        <th>GA</th>
-        <th>GD</th>
-        <th>W</th>
-        <th>D</th>
-        <th>L</th>
-        <th>Pts</th>
+        <th class="team">Team</th>
+        <th class="stat">P</th>
+        <th class="stat">GF</th>
+        <th class="stat">GA</th>
+        <th class="stat">GD</th>
+        <th class="stat">W</th>
+        <th class="stat">D</th>
+        <th class="stat">L</th>
+        <th class="stat">Pts</th>
 
     </tr>
     @foreach (var team in Model.Teams.OrderByDescending(t => t.Points).ThenBy(t => t.GoalsFor))
     {
         <tr>
-            <td>@team.TeamName</td>
-            <td>@team.GamesPlayed</td>
-            <td>@team.GoalsFor</td>
-            <td>@team.GoalsAgainst</td>
-            <td>@(team.GoalsFor - team.GoalsAgainst)</td>
-            <td>@team.GamesWon</td>
-            <td>@team.GamesDrawn</td>
-            <td>@team.GamesLost</td>
-            <td>@team.Points</td>
+            <td class="team">@Html.ActionLink(team.TeamName, "Index", "Team", new { id = team.TeamID }, null)</td>
+            <td class="stat">@team.GamesPlayed</td>
+            <td class="stat">@team.GoalsFor</td>
+            <td class="stat">@team.GoalsAgainst</td>
+            <td class="stat">@(team.GoalsFor - team.GoalsAgainst)</td>
+            <td class="stat">@team.GamesWon</td>
+            <td class="stat">@team.GamesDrawn</td>
+            <td class="stat">@team.GamesLost</td>
+            <td class="stat">@team.Points</td>
         </tr>
     }
     
