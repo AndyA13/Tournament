@@ -18,8 +18,8 @@ namespace Tournament.Models
         public FixtureSummary(Fixture fixture)
         {
             this.FixtureID = fixture.FixtureID;
-            this.HomeTeam = String.Format("{0} ({1})", fixture.HomeTeam.Name, fixture.HomeTeam.Player);
-            this.AwayTeam = String.Format("{0} ({1})", fixture.AwayTeam.Name, fixture.AwayTeam.Player);
+            this.HomeTeam = fixture.HomeTeam.ToString();
+            this.AwayTeam = fixture.AwayTeam.ToString();
 
             if (fixture.Result != null)
             {

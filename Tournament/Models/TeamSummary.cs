@@ -10,7 +10,7 @@ namespace Tournament.Models
     {
         public TeamSummary(Team team)
         {
-            this.TeamName = String.Format("{0} ({1})", team.Name, team.Player);
+            this.TeamName = team.ToString();
 
             CalculatePoints(team, team.HomeFixtures);
             CalculatePoints(team, team.AwayFixtures);
