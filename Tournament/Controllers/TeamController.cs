@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Tournament.Data;
+using Tournament.Models;
 
 namespace Tournament.Controllers
 {
@@ -11,9 +12,24 @@ namespace Tournament.Controllers
     {
         public ActionResult Index(int id)
         {
+            TeamDetails teamDetails = null;
 
+            using (TournamentEntities data = new TournamentEntities())
+            {
+                Team team = data.Teams.SingleOrDefault(t => t.TeamID == id);
 
-            return View("Index");
+                if (team != null)
+                {
+                    teamDetails = new TeamDetails(team);
+                }
+            }
+
+            if (teamDetails != null)
+            {
+                return View("Index", teamDetails);
+            }
+
+            return View("Error");
         }
 
         // GET: /Team/

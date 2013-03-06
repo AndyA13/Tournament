@@ -1,5 +1,45 @@
-﻿@{
+﻿@model Tournament.Models.TeamDetails
+@{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+@Html.ActionLink("Home", "Index", "Home")
+&gt;
+@Html.ActionLink(Model.TournamentName, "Index", "Tournament", new { id = Model.TournamentID }, null)
+&gt;
+@Html.ActionLink(Model.GroupName, "Index", "Group", new { id = Model.GroupID }, null)
+&gt;
+@Model.TeamName
+
+<h2>@Model.TeamName</h2>
+
+<fieldset>
+
+    <legend>Home Fixtures</legend>
+
+    @foreach (var fixture in Model.HomeFixtures)
+    {
+        <p>
+            @fixture.HomeTeam
+            vs
+            @fixture.AwayTeam
+        </p>
+    }
+
+</fieldset>
+
+<fieldset>
+
+    <legend>Away Fixtures</legend>
+
+    @foreach (var fixture in Model.AwayFixtures)
+    {
+        <p>
+            @fixture.HomeTeam
+            vs
+            @fixture.AwayTeam
+        </p>
+    }
+
+</fieldset>
+
