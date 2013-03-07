@@ -5,7 +5,5 @@ A quick MVC site I've made to help manage the FIFA tournament at work.
 
 
 TODO:
-- Break down the fixtures to show per team
-- Allow edit of team
-- Make sure all actions are in appropriate controller.
+- Updating a fixture from the team page returns to the main fixtures screen.
 - Add login and create front view page for non-authorized users.
