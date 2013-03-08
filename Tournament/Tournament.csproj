@@ -253,10 +253,10 @@
     <Content Include="Views\Shared\GroupTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Fixtures\Index.cshtml" />
+    <Content Include="Views\Fixture\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Fixtures\Generate.cshtml" />
+    <Content Include="Views\Fixture\Generate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Group\Index.cshtml" />

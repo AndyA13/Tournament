@@ -95,7 +95,7 @@ namespace Tournament.Controllers
                 }
             }
 
-            return RedirectToAction("Index", new { id = groupID });
+            return Redirect(Request.UrlReferrer.ToString());
         }
     }
 }
