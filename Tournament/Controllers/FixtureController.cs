@@ -8,12 +8,12 @@ using Tournament.Models;
 
 namespace Tournament.Controllers
 {
-    public class FixturesController : Controller
+    public class FixtureController : Controller
     {
-        // GET: /Fixtures/
+        // GET: /Fixture/5
         public ActionResult Index(int id)
         {
-            List<FixtureSummary> fixtures = new List<FixtureSummary>();
+            FixtureList fixtures = null;
 
             using (TournamentEntities data = new TournamentEntities())
             {
@@ -21,13 +21,7 @@ namespace Tournament.Controllers
 
                 if (group != null)
                 {
-                    foreach (Team team in group.Teams)
-                    {
-                        foreach (Fixture fixture in team.HomeFixtures)
-                        {
-                            fixtures.Add(new FixtureSummary(fixture));
-                        }
-                    }
+                    fixtures = new FixtureList(group);
                 }
             }
 
