@@ -10,7 +10,7 @@ body {
 	background: url(images/top_bg.gif);
 	background-repeat: repeat-x;
 	font-family: Verdana, Arial, sans-serif;
-        font-size: .6em;
+    font-size: 10px;
 }
 
 p {
@@ -47,6 +47,10 @@ blockquote{
 	padding: 10px;
 }
 
+table
+{
+    font-size: 12px;
+}
 
 /**** Main Container ***/
 
@@ -54,7 +58,7 @@ blockquote{
 #wrap {
        margin-left: auto;
        margin-right: auto;
-       width: 730px;
+       width: 990px;
 }
 
 
@@ -164,7 +168,7 @@ blockquote{
 }
 
 #left {
-	width: 390px;
+	width: 650px;
 	float:left;
 	display: block;
        margin-left: 20px;

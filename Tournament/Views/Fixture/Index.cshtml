@@ -4,7 +4,7 @@
 &gt;
 @Html.ActionLink(Model.TournamentName, "Index", "Tournament", new { id = Model.TournamentID }, null)
 &gt;
-@Html.ActionLink(Model.GroupName, "Index", "Group", new { id = Model.GroupID}, null)
+@Html.ActionLink(Model.GroupName, "Index", "Group", new { id = Model.GroupID }, null)
 
 <h2>@Model.GroupName Fixtures</h2>
 
@@ -15,29 +15,27 @@
 
 @foreach (Tournament.Models.FixtureSummary fixture in Model.OrderBy(f => f.HasResult))
 {
-    
-    <p>
-        @fixture.HomeTeam
-        vs
-        @fixture.AwayTeam
-
-        @if (fixture.HasResult)
+    if (fixture.HasResult)
+    {
+        <p>
+            @fixture.HomeTeam @fixture.HomeScore
+            -
+            @fixture.AwayScore @fixture.AwayTeam
+        </p>
+    }
+    else
+    {
+        using (Html.BeginForm("Update", "Fixture"))
         {
-            <input type="text" value="@fixture.HomeScore" />
-                <text> - </text>
-            <input type="text" value="@fixture.AwayScore" />
-        }
-        else
-        {
-            using (Html.BeginForm("Update", "Fixture"))
-            {
-                <input type="text" name="homeScore" />
-                <text> - </text>
-                <input type="text" name="awayScore" />
+            <p>
                 <input type="hidden" name="fixtureID" value="@fixture.FixtureID" />
+                @fixture.HomeTeam
+                <input type="text" name="homeScore" />
+                -
+                <input type="text" name="awayScore" />
+                @fixture.AwayTeam
                 <input type="submit" value="Save" />
-            }
+            </p>
         }
-            
-    </p>
+    }
 }
