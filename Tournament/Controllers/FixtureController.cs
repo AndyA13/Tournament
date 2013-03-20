@@ -37,29 +37,38 @@ namespace Tournament.Controllers
         }
 
         [HttpPost]
-        public ActionResult Generate(int id, string submit)
+        public ActionResult Generate(int id, int numberOfRounds, string submit)
         {
-            if (submit == "Generate")
+            if (submit == "Generate Fixtures")
             {
+                if ((numberOfRounds % 2) != 0)
+                {
+                    return RedirectToAction("Generate", new { id = id });
+                }
+
                 using (TournamentEntities data = new TournamentEntities())
                 {
                     Group group = data.Groups.SingleOrDefault(g => g.GroupID == id);
 
                     if (group != null)
                     {
-                        foreach (Team team in group.Teams)
+                        // We add rounds 2 at a time, home and away
+                        for (int round = 2; round <= numberOfRounds; round += 2)
                         {
-                            foreach (Team opponent in group.Teams)
+                            foreach (Team team in group.Teams)
                             {
-                                if (opponent.TeamID != team.TeamID)
+                                foreach (Team opponent in group.Teams)
                                 {
-                                    Fixture fixture = new Fixture()
+                                    if (opponent.TeamID != team.TeamID)
                                     {
-                                        HomeTeamID = team.TeamID,
-                                        AwayTeamID = opponent.TeamID,
-                                    };
+                                        Fixture fixture = new Fixture()
+                                        {
+                                            HomeTeamID = team.TeamID,
+                                            AwayTeamID = opponent.TeamID,
+                                        };
 
-                                    data.Fixtures.AddObject(fixture);
+                                        data.Fixtures.AddObject(fixture);
+                                    }
                                 }
                             }
                         }

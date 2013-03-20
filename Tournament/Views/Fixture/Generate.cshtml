@@ -8,11 +8,12 @@
 @using (Html.BeginForm("Generate", "Fixture"))
 {
     <p>
-        <label for="numberOfRounds">Number of rounds*:</label>
-        <input type="text" name="numberOfRounds" value="2" />
-        *must be multiple of 2
-        Click the button to generate new fixtures for the group.
+        <label for="numberOfRounds">Number of rounds:</label>
+        <input type="text" name="numberOfRounds" id="numberOfRounds" value="2" />
+        <br />
+        must be multiple of 2
+        <br /><br />
         <input type="hidden" name="id" value="@Model" />
-        <input type="submit" name="submit" value="Generate" />
+        <input type="submit" name="submit" value="Generate Fixtures" />
     </p>
 }
