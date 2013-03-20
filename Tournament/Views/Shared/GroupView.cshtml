@@ -7,7 +7,9 @@
     
     @Html.Partial("GroupTable", Model)
 
-    @Html.ActionLink("Fixtures", "Index", "Fixtures", new { id = Model.GroupID }, null)
+    <p>
+        @Html.ActionLink("View all group fixtures", "Index", "Fixture", new { id = Model.GroupID }, null)
+    </p>
 
     <fieldset>
 

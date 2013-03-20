@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using Tournament.Data;
 
 namespace Tournament.Models
@@ -9,14 +6,15 @@ namespace Tournament.Models
     public class TeamDetails
     {
         public int TeamID { get; set; }
+        public string TeamName { get; set; }
+        public string Player { get; set; }
         
         public int GroupID { get; set; }
         public string GroupName { get; set; }
 
         public int TournamentID { get; set; }
         public string TournamentName { get; set; }
-
-        public string TeamName { get; set; }
+        
         public IEnumerable<FixtureSummary> AwayFixtures { get; set; }
         public IEnumerable<FixtureSummary> HomeFixtures { get; set; }
         
@@ -24,6 +22,7 @@ namespace Tournament.Models
         {
             this.TeamID = team.TeamID;
             this.TeamName = team.Name;
+            this.Player = team.Player;
             this.GroupID = team.GroupID;
             this.GroupName = team.Group.Name;
             this.TournamentID = team.Group.TournamentID;

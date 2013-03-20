@@ -10,6 +10,7 @@ namespace Tournament.Controllers
 {
     public class TeamController : Controller
     {
+        // GET: /Team/5
         public ActionResult Index(int id)
         {
             TeamDetails teamDetails = null;
@@ -32,7 +33,7 @@ namespace Tournament.Controllers
             return View("Error");
         }
 
-        // GET: /Team/
+        // POST: /Team/Add
         [HttpPost]
         public ActionResult Add(Team team)
         {
@@ -48,6 +49,25 @@ namespace Tournament.Controllers
             }
 
             return RedirectToAction("Index", "Group", new { id = team.GroupID });
+        }
+
+        // POST: /Team/Edit/5
+        [HttpPost]
+        public ActionResult Edit(int id, Team postedTeam)
+        {
+            using (TournamentEntities data = new TournamentEntities())
+            {
+                Team team = data.Teams.SingleOrDefault(t => t.TeamID == id);
+
+                if (team != null)
+                {
+                    UpdateModel<Team>(team);
+
+                    data.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("Index", new { id = id });
         }
     }
 }

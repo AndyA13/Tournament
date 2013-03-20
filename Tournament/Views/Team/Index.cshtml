@@ -14,16 +14,54 @@
 <h2>@Model.TeamName</h2>
 
 <fieldset>
+    
+    <legend>Team Details</legend>
+
+    @using (Html.BeginForm("Edit", "Team", new { id = Model.TeamID }, FormMethod.Post))
+    {
+        <label for="">Name</label>
+        <input type="text" name="Name" value="@Model.TeamName" />
+        
+        <br />
+    
+        <label for="">Player</label>
+        <input type="text" name="Player" value="@Model.Player" />
+
+        <br />
+        
+        <input type="submit" value="Save" />
+    }
+</fieldset>
+
+<fieldset>
 
     <legend>Home Fixtures</legend>
 
     @foreach (var fixture in Model.HomeFixtures)
     {
-        <p>
-            @fixture.HomeTeam
-            vs
-            @fixture.AwayTeam
-        </p>
+        if (fixture.HasResult)
+        {
+            <p>
+            @fixture.HomeTeam @fixture.HomeScore
+            -
+            @fixture.AwayScore @fixture.AwayTeam
+            </p>
+        }
+        else
+        {
+            using (Html.BeginForm("Update", "Fixture"))
+            {
+                <p>
+                    <input type="hidden" name="fixtureID" value="@fixture.FixtureID" />
+                    @fixture.HomeTeam
+                    <input type="text" name="homeScore" />
+                    -
+                    <input type="text" name="awayScore" />
+                    @fixture.AwayTeam
+                    <input type="submit" value="Save" />
+                </p>
+            }
+        }
     }
 
 </fieldset>
@@ -34,11 +72,29 @@
 
     @foreach (var fixture in Model.AwayFixtures)
     {
-        <p>
-            @fixture.HomeTeam
-            vs
-            @fixture.AwayTeam
-        </p>
+        if (fixture.HasResult)
+        {
+            <p>
+            @fixture.HomeTeam @fixture.HomeScore
+            -
+            @fixture.AwayScore @fixture.AwayTeam
+            </p>
+        }
+        else
+        {
+            using (Html.BeginForm("Update", "Fixture"))
+            {
+                <p>
+                    <input type="hidden" name="fixtureID" value="@fixture.FixtureID" />
+                    @fixture.HomeTeam
+                    <input type="text" name="homeScore" />
+                    -
+                    <input type="text" name="awayScore" />
+                    @fixture.AwayTeam
+                    <input type="submit" value="Save" />
+                </p>
+            }
+        }
     }
 
 </fieldset>
