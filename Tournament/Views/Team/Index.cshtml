@@ -1,6 +1,6 @@
 ﻿@model Tournament.Models.TeamDetails
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Tournament :: " + Model.TeamName;
 }
 
 @Html.ActionLink("Home", "Index", "Home")
@@ -19,13 +19,13 @@
 
     @using (Html.BeginForm("Edit", "Team", new { id = Model.TeamID }, FormMethod.Post))
     {
-        <label for="">Name</label>
-        <input type="text" name="Name" value="@Model.TeamName" />
+        <label for="Name">Name</label>
+        <input type="text" name="Name" id="Name" value="@Model.TeamName" />
         
         <br />
     
-        <label for="">Player</label>
-        <input type="text" name="Player" value="@Model.Player" />
+        <label for="Player">Player</label>
+        <input type="text" name="Player" id="Player" value="@Model.Player" />
 
         <br />
         

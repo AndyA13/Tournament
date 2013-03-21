@@ -1,5 +1,7 @@
 ﻿@model Tournament.Models.GroupTable
-
+@{
+    ViewBag.Title = "Tournament :: " + Model.GroupName;
+}
 @Html.ActionLink("Home", "Index", "Home")
 &gt;
 @Html.ActionLink(Model.TournamentName, "Index", "Tournament", new { id = Model.TournamentID }, null)

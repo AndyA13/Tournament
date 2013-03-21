@@ -1,4 +1,7 @@
 ﻿@model Tournament.Models.TournamentSummary
+@{
+    ViewBag.Title = "Tournament :: " + Model.TournamentName;   
+}
 
 @Html.ActionLink("Home", "Index", "Home")
 &gt;
