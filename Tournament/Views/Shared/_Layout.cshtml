@@ -29,8 +29,8 @@
             
             <div id="menu">
                 <ul>
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li><a href="#">about</a></li>
+                    <li>@Html.ActionLink("home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("about", "Index", "About")</li>
                 </ul>
             </div>
         </div>
@@ -40,8 +40,6 @@
 
         @RenderBody()
 
-        @Scripts.Render("~/bundles/jquery")
-        @RenderSection("scripts", required: false)
 
     <!--<h2>Welcome to LoadFoO [V1]</h2>
     <p>Text Content Text <a href="#">Content Text</a> Content Text.</p>
@@ -82,6 +80,9 @@
             <p>Copyright 2006 LoadFoO [V1]. Designed by <a href="http://loadfoo.org/" rel="external">LoadFoO</a>. Valid <a href="http://jigsaw.w3.org/css-validator/check/referer" rel="external">CSS</a> &amp; <a href="http://validator.w3.org/check?uri=referer" rel="external">XHTML</a></p>
         </div>
     </div>
+    
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
 
 </body>
 </html>

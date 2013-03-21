@@ -121,6 +121,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\FixtureController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -274,6 +275,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Team\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\About\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
