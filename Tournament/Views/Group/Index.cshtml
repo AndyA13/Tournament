@@ -16,3 +16,22 @@
     @Html.Partial("GroupView", Model)
 
 </div>
+
+<div id="right">
+
+    <div class="box">
+        
+        <h2>@Model.TournamentName Groups</h2>
+
+        <ul id="nav">
+            @foreach (var group in Model.OtherGroups)
+            {
+                <li>
+                    @Html.ActionLink(group.Value, "Index", "Group", new { id = group.Key }, null)
+                </li>
+            }
+        </ul>
+
+    </div>
+
+</div>

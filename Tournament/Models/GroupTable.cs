@@ -16,6 +16,8 @@ namespace Tournament.Models
         
         public IEnumerable<TeamSummary> Teams { get; set; }
 
+        public Dictionary<int, string> OtherGroups { get; set; }
+
         public GroupTable(Group group)
         {
             this.TournamentID = group.TournamentID;
@@ -31,6 +33,16 @@ namespace Tournament.Models
             }
 
             this.Teams = summary;
+
+            this.OtherGroups = new Dictionary<int, string>();
+
+            foreach (Group otherGroup in group.Tournament.Groups.OrderBy(g => g.Name))
+            {
+                if (otherGroup.GroupID != group.GroupID)
+                {
+                    this.OtherGroups.Add(otherGroup.GroupID, otherGroup.Name);
+                }
+            }
         }
     }
 }
