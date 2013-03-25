@@ -6,31 +6,35 @@
     
 }
 
-<h2>Tournaments</h2>
+<div id="left">
 
-<ul>
-    @foreach (Tournament.Data.Tournament tournament in Model)
-    {
-        <li>
-            @Html.ActionLink(tournament.Name, "", "Tournament", new { id = tournament.TournamentID }, null)
-            (@Html.ActionLink("Delete", "Delete", "Tournament", new { id = tournament.TournamentID }, null))
-        </li>
-    }
-</ul>
+    <h2>Tournaments</h2>
+
+    <ul>
+        @foreach (Tournament.Data.Tournament tournament in Model)
+        {
+            <li>
+                @Html.ActionLink(tournament.Name, "", "Tournament", new { id = tournament.TournamentID }, null)
+                (@Html.ActionLink("Delete", "Delete", "Tournament", new { id = tournament.TournamentID }, null))
+            </li>
+        }
+    </ul>
 
 
-<fieldset>
+    <fieldset>
 
-    <legend>Add new tournament</legend>
+        <legend>Add new tournament</legend>
 
-    @using (Html.BeginForm("Add", "Tournament", FormMethod.Post))
-    {
-        <p>
-            Name: <input type="text" name="Name" />
+        @using (Html.BeginForm("Add", "Tournament", FormMethod.Post))
+        {
+            <p>
+                Name: <input type="text" name="Name" />
     
-            <br />
+                <br />
     
-            <input type="submit" value="Submit" />
-        </p>
-    }
-</fieldset>
+                <input type="submit" value="Submit" />
+            </p>
+        }
+    </fieldset>
+
+</div>

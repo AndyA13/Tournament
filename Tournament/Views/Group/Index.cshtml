@@ -2,12 +2,17 @@
 @{
     ViewBag.Title = "Tournament :: " + Model.GroupName;
 }
-@Html.ActionLink("Home", "Index", "Home")
-&gt;
-@Html.ActionLink(Model.TournamentName, "Index", "Tournament", new { id = Model.TournamentID }, null)
-&gt;
-@Model.GroupName
 
-<h2>@Model.GroupName</h2>
+<div id="left">
 
-@Html.Partial("GroupView", Model)
+    @Html.ActionLink("Home", "Index", "Home")
+    &gt;
+    @Html.ActionLink(Model.TournamentName, "Index", "Tournament", new { id = Model.TournamentID }, null)
+    &gt;
+    @Model.GroupName
+
+    <h2>@Model.GroupName</h2>
+
+    @Html.Partial("GroupView", Model)
+
+</div>

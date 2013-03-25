@@ -1,41 +1,45 @@
 ﻿@model  Tournament.Models.FixtureList
 
-@Html.ActionLink("Home", "Index", "Home")
-&gt;
-@Html.ActionLink(Model.TournamentName, "Index", "Tournament", new { id = Model.TournamentID }, null)
-&gt;
-@Html.ActionLink(Model.GroupName, "Index", "Group", new { id = Model.GroupID }, null)
+<div id="left">
 
-<h2>@Model.GroupName Fixtures</h2>
+    @Html.ActionLink("Home", "Index", "Home")
+    &gt;
+    @Html.ActionLink(Model.TournamentName, "Index", "Tournament", new { id = Model.TournamentID }, null)
+    &gt;
+    @Html.ActionLink(Model.GroupName, "Index", "Group", new { id = Model.GroupID }, null)
 
-@if (Model.Count() == 0)
-{
-    @Html.ActionLink("Generate fixtures", "Generate", new { id = ViewBag.GroupID });
-}
+    <h2>@Model.GroupName Fixtures</h2>
 
-@foreach (Tournament.Models.FixtureSummary fixture in Model.OrderBy(f => f.HasResult))
-{
-    if (fixture.HasResult)
+    @if (Model.Count() == 0)
     {
-        <p>
-            @fixture.HomeTeam @fixture.HomeScore
-            -
-            @fixture.AwayScore @fixture.AwayTeam
-        </p>
+        @Html.ActionLink("Generate fixtures", "Generate", new { id = ViewBag.GroupID });
     }
-    else
+
+    @foreach (Tournament.Models.FixtureSummary fixture in Model.OrderBy(f => f.HasResult))
     {
-        using (Html.BeginForm("Update", "Fixture"))
+        if (fixture.HasResult)
         {
             <p>
-                <input type="hidden" name="fixtureID" value="@fixture.FixtureID" />
-                @fixture.HomeTeam
-                <input type="text" name="homeScore" />
+                @fixture.HomeTeam @fixture.HomeScore
                 -
-                <input type="text" name="awayScore" />
-                @fixture.AwayTeam
-                <input type="submit" value="Save" />
+                @fixture.AwayScore @fixture.AwayTeam
             </p>
         }
+        else
+        {
+            using (Html.BeginForm("Update", "Fixture"))
+            {
+                <p>
+                    <input type="hidden" name="fixtureID" value="@fixture.FixtureID" />
+                    @fixture.HomeTeam
+                    <input type="text" name="homeScore" />
+                    -
+                    <input type="text" name="awayScore" />
+                    @fixture.AwayTeam
+                    <input type="submit" value="Save" />
+                </p>
+            }
+        }
     }
-}
+
+</div>

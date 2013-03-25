@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Tournament.Data;
 
 namespace Tournament.Models
@@ -17,7 +18,9 @@ namespace Tournament.Models
         
         public IEnumerable<FixtureSummary> AwayFixtures { get; set; }
         public IEnumerable<FixtureSummary> HomeFixtures { get; set; }
-        
+
+        public Dictionary<int, string> OtherTeams { get; set; }
+
         public TeamDetails(Team team)
         {
             this.TeamID = team.TeamID;
@@ -45,6 +48,16 @@ namespace Tournament.Models
             }
 
             this.HomeFixtures = homeFixtures;
+
+            this.OtherTeams = new Dictionary<int, string>();
+
+            foreach (Team otherTeam in team.Group.Teams.OrderBy(t => t.Name))
+            {
+                if (otherTeam.TeamID != team.TeamID)
+                {
+                    this.OtherTeams.Add(otherTeam.TeamID, otherTeam.ToString());
+                }
+            }
             
         }
     }

@@ -3,15 +3,19 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+<div id="left">
 
-@using (Html.BeginForm("Delete", "Home"))
-{
-    <p>
-        Are you sure you want to delete the @Model.Name tournament?
-    </p>
+    <h2>Delete</h2>
+
+    @using (Html.BeginForm("Delete", "Home"))
+    {
+        <p>
+            Are you sure you want to delete the @Model.Name tournament?
+        </p>
     
-    <input type="hidden" name="tournamentID" value="@Model.TournamentID" />
+        <input type="hidden" name="tournamentID" value="@Model.TournamentID" />
     
-    <input type="submit" name="submit" value="Delete" />
-}
+        <input type="submit" name="submit" value="Delete" />
+    }
+
+</div>

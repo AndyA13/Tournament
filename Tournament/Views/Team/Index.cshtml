@@ -3,99 +3,121 @@
     ViewBag.Title = "Tournament :: " + Model.TeamName;
 }
 
-@Html.ActionLink("Home", "Index", "Home")
-&gt;
-@Html.ActionLink(Model.TournamentName, "Index", "Tournament", new { id = Model.TournamentID }, null)
-&gt;
-@Html.ActionLink(Model.GroupName, "Index", "Group", new { id = Model.GroupID }, null)
-&gt;
-@Model.TeamName
+<div id="left">
 
-<h2>@Model.TeamName</h2>
+    @Html.ActionLink("Home", "Index", "Home")
+    &gt;
+    @Html.ActionLink(Model.TournamentName, "Index", "Tournament", new { id = Model.TournamentID }, null)
+    &gt;
+    @Html.ActionLink(Model.GroupName, "Index", "Group", new { id = Model.GroupID }, null)
+    &gt;
+    @Model.TeamName
 
-<fieldset>
+    <h2>@Model.TeamName</h2>
+
+    <fieldset>
     
-    <legend>Team Details</legend>
+        <legend>Team Details</legend>
 
-    @using (Html.BeginForm("Edit", "Team", new { id = Model.TeamID }, FormMethod.Post))
-    {
-        <label for="Name">Name</label>
-        <input type="text" name="Name" id="Name" value="@Model.TeamName" />
-        
-        <br />
-    
-        <label for="Player">Player</label>
-        <input type="text" name="Player" id="Player" value="@Model.Player" />
-
-        <br />
-        
-        <input type="submit" value="Save" />
-    }
-</fieldset>
-
-<fieldset>
-
-    <legend>Home Fixtures</legend>
-
-    @foreach (var fixture in Model.HomeFixtures)
-    {
-        if (fixture.HasResult)
+        @using (Html.BeginForm("Edit", "Team", new { id = Model.TeamID }, FormMethod.Post))
         {
-            <p>
-            @fixture.HomeTeam @fixture.HomeScore
-            -
-            @fixture.AwayScore @fixture.AwayTeam
-            </p>
+            <label for="Name">Name</label>
+            <input type="text" name="Name" id="Name" value="@Model.TeamName" />
+        
+            <br />
+    
+            <label for="Player">Player</label>
+            <input type="text" name="Player" id="Player" value="@Model.Player" />
+
+            <br />
+        
+            <input type="submit" value="Save" />
         }
-        else
+    </fieldset>
+
+    <fieldset>
+
+        <legend>Home Fixtures</legend>
+
+        @foreach (var fixture in Model.HomeFixtures)
         {
-            using (Html.BeginForm("Update", "Fixture"))
+            if (fixture.HasResult)
             {
                 <p>
-                    <input type="hidden" name="fixtureID" value="@fixture.FixtureID" />
-                    @fixture.HomeTeam
-                    <input type="text" name="homeScore" />
-                    -
-                    <input type="text" name="awayScore" />
-                    @fixture.AwayTeam
-                    <input type="submit" value="Save" />
+                @fixture.HomeTeam @fixture.HomeScore
+                -
+                @fixture.AwayScore @fixture.AwayTeam
                 </p>
             }
+            else
+            {
+                using (Html.BeginForm("Update", "Fixture"))
+                {
+                    <p>
+                        <input type="hidden" name="fixtureID" value="@fixture.FixtureID" />
+                        @fixture.HomeTeam
+                        <input type="text" name="homeScore" />
+                        -
+                        <input type="text" name="awayScore" />
+                        @fixture.AwayTeam
+                        <input type="submit" value="Save" />
+                    </p>
+                }
+            }
         }
-    }
 
-</fieldset>
+    </fieldset>
 
-<fieldset>
+    <fieldset>
 
-    <legend>Away Fixtures</legend>
+        <legend>Away Fixtures</legend>
 
-    @foreach (var fixture in Model.AwayFixtures)
-    {
-        if (fixture.HasResult)
+        @foreach (var fixture in Model.AwayFixtures)
         {
-            <p>
-            @fixture.HomeTeam @fixture.HomeScore
-            -
-            @fixture.AwayScore @fixture.AwayTeam
-            </p>
-        }
-        else
-        {
-            using (Html.BeginForm("Update", "Fixture"))
+            if (fixture.HasResult)
             {
                 <p>
-                    <input type="hidden" name="fixtureID" value="@fixture.FixtureID" />
-                    @fixture.HomeTeam
-                    <input type="text" name="homeScore" />
-                    -
-                    <input type="text" name="awayScore" />
-                    @fixture.AwayTeam
-                    <input type="submit" value="Save" />
+                @fixture.HomeTeam @fixture.HomeScore
+                -
+                @fixture.AwayScore @fixture.AwayTeam
                 </p>
             }
+            else
+            {
+                using (Html.BeginForm("Update", "Fixture"))
+                {
+                    <p>
+                        <input type="hidden" name="fixtureID" value="@fixture.FixtureID" />
+                        @fixture.HomeTeam
+                        <input type="text" name="homeScore" />
+                        -
+                        <input type="text" name="awayScore" />
+                        @fixture.AwayTeam
+                        <input type="submit" value="Save" />
+                    </p>
+                }
+            }
         }
-    }
 
-</fieldset>
+    </fieldset>
 
+</div>
+
+<div id="right">
+
+    <div class="box">
+        
+        <h2>@Model.GroupName Teams</h2>
+
+        <ul id="nav">
+            @foreach (var team in Model.OtherTeams)
+            {
+                <li>
+                    @Html.ActionLink(team.Value, "Index", "Team", new { id = team.Key }, null)
+                </li>
+            }
+        </ul>
+
+    </div>
+
+</div>
